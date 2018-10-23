@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<launch>
+	<include file="$(find faraday_description)/launch/display.launch" />
+	
+	<!-- Load Hoyuko's-->
+	<arg name="sim" default="false" />
+	<group unless="$(arg sim)">
+			<node name="hokuyo_front" pkg="urg_node" type="urg_node" respawn="true" output="screen">
+			<remap from="/scan" to="/scan_front"/>
+			<!-- Starts up faster, but timestamps will be inaccurate. -->
+			<!--<param name="calibrate_time" type="bool" value="true"/>-->
+			<!-- Set the port to connect to here. -->
+			<!--<param name="serial_port" type="string" value="//dev/ttyACM0"/>-->
+			<param name="ip_address" type="string" value="192.168.2.34"/>
+			<!--<param name="serial_baud" value="115200"/>-->
+			<param name="frame_id" type="string" value="front_lidar_real"/>
+			<param name="angle_min" type="double" value="-1.50"/>
+			<param name="angle_max" type="double" value="1.50"/>
+		</node>
+
+		<node name="hokuyo_back" pkg="urg_node" type="urg_node" respawn="true" output="screen">
+			<remap from="/scan" to="/scan_back"/>
+			<!-- Starts up faster, but timestamps will be inaccurate. -->
+			<!--<param name="calibrate_time" type="bool" value="true"/>-->
+			<!-- Set the port to connect to here. -->
+			<!--<param name="serial_port" type="string" value="//dev/ttyACM0"/>-->
+			<param name="ip_address" type="string" value="192.168.2.33"/>
+			<!--<param name="serial_baud" value="115200"/>-->
+			<param name="frame_id" type="string" value="back_lidar_real" />
+			<param name="angle_min" type="double" value="-1.50"/>
+			<param name="angle_max" type="double" value="1.50"/>
+		</node>
+	</group>
+
+	<node pkg="topic_tools" type="relay" name="relay_hokuyo_front" 
+			args="/scan_front /scan_combined" />
+	<node pkg="topic_tools" type="relay" name="relay_hokuyo_rear" 
+			args="/scan_back /scan_combined" />
+	
+	<node pkg="tf" type="static_transform_publisher" name="hokuyo_back_broadcasters"
+		args="0 0 0 0 0 0 front_lidar front_lidar_real 100" />
+	<node pkg="tf" type="static_transform_publisher" name="hokuyo_front_broadcasters" 
+                args="0 0 0 0 0 0 back_lidar back_lidar_real 100" />
+	
+	<!-- Odometry node -->
+	<node pkg="faraday_navigation" type="positioning_module.py" name="positioning_node" output="screen">
+		<param name="encoder_port" type="str" value="/dev/ttyACM0"/>
+	</node>
+</launch>
