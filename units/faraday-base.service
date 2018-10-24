@@ -1,0 +1,13 @@
+[Unit]
+Description=Bringup Faraday Base
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+User=faraday
+Group=faraday
+EnvironmentFile=/etc/default/faraday-base
+ExecStart=/opt/ros/kinetic/bin/roslaunch faraday_navigation base.launch
+
+[Install]
+WantedBy=multi-user.target
