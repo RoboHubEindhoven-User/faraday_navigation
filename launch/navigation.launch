@@ -1,13 +1,15 @@
 <launch>
+  <arg name="map_file" default="normal_map"/>
+
   <!-- Run the map server -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find faraday_navigation)/maps/normal_map.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find faraday_navigation)/maps/$(arg map_file).yaml"/>
   <!-- <node pkg="tf2_ros" type="static_transform_publisher" 
 		name="link_map_to_base" 
 		args="0.0 0.0 0.0 0.0 0.0 0.0 map odom" /> -->
 
   <!--- Run AMCL -->
   <include file="$(find faraday_navigation)/launch/amcl_omni.launch" />
-  <include file="$(find faraday_navigation)/launch/base.launch" />
+  <!--<include file="$(find faraday_navigation)/launch/base.launch" />-->
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" >
     <rosparam file="$(find faraday_navigation)/move_base/costmap_common.yaml" command="load" ns="global_costmap" />
@@ -23,6 +25,7 @@
     <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
     <param name="controller_frequency" value="5.0" />
     <param name="controller_patience" value="15.0" />
+    <remap from="/cmd_vel" to="/cmd_gearbox/transmission_cmd" />
   </node>
 </launch>
 

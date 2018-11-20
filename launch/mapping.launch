@@ -1,7 +1,8 @@
 <launch>
-   <include file="$(find faraday_navigation)/launch/base.launch" />
+   <!--<include file="$(find faraday_navigation)/launch/base.launch" />-->
 
-    <arg name="scan_topic"  default="scan_front" />
+    <!--<arg name="scan_topic"  default="scan_front" />-->
+    <arg name="scan_topic"  default="scan_combined" />
     <arg name="base_frame"  default="base_link"/>
     <arg name="odom_frame"  default="odom"/>
 
@@ -9,8 +10,8 @@
     <param name="base_frame" value="$(arg base_frame)"/>
     <param name="odom_frame" value="$(arg odom_frame)"/>
     <param name="map_update_interval" value="5.0"/>
-    <param name="maxUrange" value="6.0"/>
-    <param name="maxRange" value="8.0"/>
+    <param name="maxUrange" value="8.0"/><!-- was 6.0 -->
+    <param name="maxRange" value="10.0"/><!-- was 8.0 -->
     <param name="sigma" value="0.05"/>
     <param name="kernelSize" value="1"/>
     <param name="lstep" value="0.05"/>
@@ -19,7 +20,7 @@
     <param name="lsigma" value="0.075"/>
     <param name="ogain" value="3.0"/>
     <param name="lskip" value="0"/>
-    <param name="minimumScore" value="200"/>
+    <param name="minimumScore" value="50"/><!-- was 200 -->
     <param name="srr" value="0.01"/>
     <param name="srt" value="0.02"/>
     <param name="str" value="0.01"/>

@@ -11,7 +11,7 @@ TebLocalPlannerROS:
  feasibility_check_no_poses: 5
     
  # Robot
-         
+ # NOTE: Increasing acc limits seemed to improve obstacle avoidance        
  max_vel_x: 0.95
  max_vel_x_backwards: 0.95
  max_vel_y: 0.95
@@ -55,15 +55,15 @@ TebLocalPlannerROS:
  weight_acc_lim_x: 1
  weight_acc_lim_y: 1
  weight_acc_lim_theta: 1
- weight_kinematics_nh: 1 # WE HAVE A HOLONOMIC ROBOT, JUST ADD A SMALL PENALTY
- weight_kinematics_forward_drive: 1
+ weight_kinematics_nh: 0.5 #1 WE HAVE A HOLONOMIC ROBOT, JUST ADD A SMALL PENALTY
+ weight_kinematics_forward_drive: 0.2 #1
  weight_kinematics_turning_radius: 1
  weight_optimaltime: 1
  weight_obstacle: 50
 
  # Homotopy Class Planner
 
- enable_homotopy_class_planning: True
+ enable_homotopy_class_planning: False #True
  enable_multithreading: True
  simple_exploration: False
  max_number_classes: 3 #4
