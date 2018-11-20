@@ -16,24 +16,25 @@ TebLocalPlannerROS:
  max_vel_x_backwards: 0.95
  max_vel_y: 0.95
  max_vel_theta: 0.90
- acc_lim_x: 1.9
- acc_lim_y: 1.9
- acc_lim_theta: 2.0 #0.15
+ acc_lim_x: 0.75 #0.3
+ acc_lim_y: 0.75 #0.5
+ acc_lim_theta: 0.75 #0.5 #0.15
  min_turning_radius: 0.0 # omni-drive robot (can turn on place!)
 
  footprint_model:
    type: "point"
+   #vertices: [[0.33, -0.26], [0.3825, -0.035], [0.33, 0.035], [0.3825, 0.26], [-0.33, 0.26], [-0.3825, 0.035], [-0.3825, -0.035], [-0.33, -0.26]]
 
  # GoalTolerance
     
- xy_goal_tolerance: 0.20 #0.25
+ xy_goal_tolerance: 0.10 #0.25
  yaw_goal_tolerance: 0.22 #0.3
  free_goal_vel: True
  oscillation_recovery: False #Take out oscillation recovery
     
  # Obstacles
     
- min_obstacle_dist: 0.37 # This value must also include our robot radius, since footprint_model is set to "point".
+ min_obstacle_dist: 0.45 # This value must also include our robot radius, since footprint_model is set to "point".
  include_costmap_obstacles: True
  costmap_obstacles_behind_robot_dist: 1.0
  obstacle_poses_affected: 30
@@ -43,8 +44,8 @@ TebLocalPlannerROS:
 
  # Optimization
     
- no_inner_iterations: 5
- no_outer_iterations: 4
+ no_inner_iterations: 3 #5
+ no_outer_iterations: 2 #4
  optimization_activate: True
  optimization_verbose: False
  penalty_epsilon: 0.1
@@ -65,7 +66,7 @@ TebLocalPlannerROS:
  enable_homotopy_class_planning: True
  enable_multithreading: True
  simple_exploration: False
- max_number_classes: 4
+ max_number_classes: 3 #4
  selection_cost_hysteresis: 1.0
  selection_obst_cost_scale: 1.0
  selection_alternative_time_cost: False
