@@ -54,4 +54,6 @@
 		<param name="encoder_port" type="str" value="/dev/ttyACM0"/>
 	</node>
 	<node pkg="faraday_navigation" type="motor_drivers.py" name="motor_drivers" output="screen"></node>
+
+	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
 </launch>
