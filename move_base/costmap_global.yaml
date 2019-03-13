@@ -19,4 +19,4 @@ global_costmap:
     observation_sources: base_scan_front base_scan_rear
     
   inflations:
-    inflation_radius: 0.37
+    inflation_radius: 0.01

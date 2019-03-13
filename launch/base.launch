@@ -31,6 +31,16 @@
 			<param name="angle_min" type="double" value="-1.50"/>
 			<param name="angle_max" type="double" value="1.50"/>
 		</node>
+
+		<node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+			<remap from="/scan" to="/scan_top" />
+			<param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
+  			<param name="serial_baudrate"     type="int"    value="115200"/><!--A1/A2 -->
+  			<!--param name="serial_baudrate"     type="int"    value="256000"--><!--A3 -->
+  			<param name="frame_id"            type="string" value="top_lidar_real"/>
+  			<param name="inverted"            type="bool"   value="false"/>
+  			<param name="angle_compensate"    type="bool"   value="true"/>
+  		</node>
 	</group>
 
 	<node pkg="ira_laser_tools" name="laserscan_multi_merger" type="laserscan_multi_merger" output="screen">
@@ -48,12 +58,14 @@
 		args="0 0 0 0 0 0 front_lidar front_lidar_real 100" />
 	<node pkg="tf" type="static_transform_publisher" name="hokuyo_front_broadcasters" 
                 args="0 0 0 0 0 0 back_lidar back_lidar_real 100" />
+	<node pkg="tf" type="static_transform_publisher" name="top_RP_broadcaster"
+        	args="0 0 0.34 0 0 0 base_link top_lidar_real 100" />
 	
 	<!-- Odometry node -->
 	<node pkg="faraday_navigation" type="positioning_module.py" name="positioning_node" output="screen">
 		<param name="encoder_port" type="str" value="/dev/ttyACM0"/>
 	</node>
 	<node pkg="faraday_navigation" type="motor_drivers.py" name="motor_drivers" output="screen"></node>
-
+	
 	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
 </launch>
